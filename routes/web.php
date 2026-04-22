@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ContactController;
+use App\Models\Car;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,3 +30,8 @@ Route::get('colors', function() {
 
 Route::put('posts/{post}/update/status', [PostController::class, 'updateStatus'])->name('update.status');
 Route::get('posts/{post}/status', [PostController::class, 'status'])->name('status');
+
+Route::get('display-car', function() {
+    $car = Car::create("Toyota", "1998", 120000);
+    return $car->print();
+});
