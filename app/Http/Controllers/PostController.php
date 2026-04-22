@@ -24,63 +24,74 @@ class PostController extends Controller
         return view('posts.create');
     }
 
+    public function status(Post $post)
+    {
+        return view('posts.status',  ['post' => $post]);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        $data = [
-            'title' => $request->title,
-            'content' => $request->content
-        ];
+        $data = $request->validate([
+            'title' => ['required'],
+            'content' => ['required']
+        ]);
 
         Post::create($data);
 
-        return redirect('/posts');
+        return redirect()->route('index')->with('status', 'Post creaded successfully!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::find($id);
         return view('posts.show', ['post' => $post]);
     }
     
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
         return view('posts.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        $post = Post::find($id);
-
-        $data = [
-            'title' => $request->title,
-            'content' => $request->content
-        ];
+        $data = $request->validate([
+            'title' => ['required'],
+            'content' => ['required']
+        ]);
 
         $post->update($data);
 
-        return redirect('/posts');
+        return redirect()->route('index')->with('status', 'Post updated successfully!');
+    }
+
+    public function updateStatus(Request $request, Post $post)
+    {
+        $data = $request->validate([
+            'status' => ['required']
+        ]);
+
+        $post->update($data);
+
+        return redirect()->route('index')->with('status', 'Status updated successfully!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::find($id);
         $post->delete();
-        return redirect('/posts');
+        return redirect()->route('index')->with('status', 'Post deleted successfully!');
     }    
 }
