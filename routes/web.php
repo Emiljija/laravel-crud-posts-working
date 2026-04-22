@@ -32,5 +32,5 @@ Route::put('posts/{post}/update/status', [PostController::class, 'updateStatus']
 Route::get('posts/{post}/status', [PostController::class, 'status'])->name('status');
 
 Route::get('display-car', function() {
-    return view('cars.show', ["cars" => Car::create("Toyota", "1998", 120000)]);
+    return view('cars.index', ["cars" => [Car::create("Toyota", "1998", 120000), Car::create("BMW", "2001", 1000), Car::create("Mazda", "2008", 50000)]]);
 });
